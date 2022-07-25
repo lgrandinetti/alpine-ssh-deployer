@@ -5,4 +5,5 @@ RUN apk add --no-cache \
   bash \
   curl jq \
   tar \
-  gzip
+  gzip \
+  ruby
