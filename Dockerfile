@@ -5,5 +5,7 @@ RUN apk add --no-cache \
   bash \
   curl jq \
   tar \
-  gzip \
-  ruby
+  gzip
+
+COPY load-secure-files /usr/bin/
+RUN chmod +x /usr/bin/load-secure-files

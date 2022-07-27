@@ -1,0 +1,13 @@
+#!/bin/bash
+SECURE_FILES_DOWNLOAD_PATH=${SECURE_FILES_DOWNLOAD_PATH:-'.secure_files'}
+API_BASE_URL="${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/secure_files"
+
+mkdir -p $SECURE_FILES_DOWNLOAD_PATH
+curl --header "PRIVATE-TOKEN: $CI_PRIVATE_TOKEN" $API_BASE_URL | jq -c '.[]' | while read line ; do 
+    FILE_ID=$(echo $line | jq -r '.id' )
+    FILE_NAME=$(echo $line | jq -r '.name' )
+    echo "Downloading $SECURE_FILES_DOWNLOAD_PATH/$FILE_NAME ($FILE_ID)..."
+    curl --request GET --header "PRIVATE-TOKEN: $CI_PRIVATE_TOKEN" ${API_BASE_URL}/${FILE_ID}/download -o $SECURE_FILES_DOWNLOAD_PATH/$FILE_NAME
+done
+
+
